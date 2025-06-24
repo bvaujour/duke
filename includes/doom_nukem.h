@@ -6,7 +6,7 @@
 /*   By: injah <injah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 21:11:12 by injah             #+#    #+#             */
-/*   Updated: 2025/06/06 12:21:03 by injah            ###   ########.fr       */
+/*   Updated: 2025/06/13 19:38:51 by injah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define DOOM_NUKEM
 
 # include "mlx.h"
-# include <raylib.h>
+# include "../libs/raylib/src/raylib.h"
 # include "libft.h"
 # include <stdlib.h>
 # include <stdbool.h>

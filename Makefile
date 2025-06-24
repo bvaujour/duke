@@ -17,7 +17,7 @@ SRC =	main.c 			\
 OBJ_DIR = obj
 LIBFT_DIR = libs/libft
 MLX_DIR = libs/minilibx-linux
-RAYLIB_DIR = libs/raylib
+RAYLIB_DIR = libs/raylib/build/raylib
 
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 

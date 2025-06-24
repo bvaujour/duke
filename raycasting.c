@@ -6,7 +6,7 @@
 /*   By: injah <injah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:56:19 by injah             #+#    #+#             */
-/*   Updated: 2025/06/06 13:28:41 by injah            ###   ########.fr       */
+/*   Updated: 2025/06/14 15:04:38 by injah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,8 +140,8 @@ void	draw_floor(t_data *data, t_ray *ray, int x)
 	while (++y < ray->draw_start)
 	{
 		int p = y - horizon;
-		if (p == 0)
-			continue;
+		// if (p == 0)
+		// 	continue;
 		rowDistance = camZ / abs(p);
 		index = y * data->screen_width + x;
 		if (data->distance_buffer[index] != 0 && data->distance_buffer[index] < rowDistance)

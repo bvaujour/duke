@@ -6,7 +6,7 @@
 /*   By: injah <injah@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 20:34:39 by injah             #+#    #+#             */
-/*   Updated: 2025/06/06 13:21:22 by injah            ###   ########.fr       */
+/*   Updated: 2025/06/14 15:04:55 by injah            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	post_process(t_data *data)
 				else
 					ambient_intensity *= ambient_intensity;
 
-				pixel_color_buffer[row + x] = apply_light_modifier(pixel_color_buffer[row + x], ambient_intensity, 10, 10, 20);
+				pixel_color_buffer[row + x] = apply_light_modifier(pixel_color_buffer[row + x], ambient_intensity, 0, 0, 0);
 			}
 		}
 }
@@ -126,7 +126,7 @@ int	update_frame(t_data *data)
 
 		size_t	after_raycasting = ft_gettime_us();
 
-		// post_process(data);
+		post_process(data);
 
 		size_t	after_post_process = ft_gettime_us();
 
