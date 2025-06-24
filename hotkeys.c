@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hotkeys.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: injah <injah@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 08:36:06 by injah             #+#    #+#             */
-/*   Updated: 2025/06/06 11:33:23 by injah            ###   ########.fr       */
+/*   Updated: 2025/06/24 09:59:04 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int keypress(int key, t_data *data)
 {
-	printf("key: %d\n", key);
+	// printf("key: %d\n", key);
 	if (key == 'q')
 		data->hotkeys.key_q = true;
 	else if (key == 'a')

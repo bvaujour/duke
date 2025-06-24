@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: injah <injah@student.42.fr>                +#+  +:+       +#+         #
+#    By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/07 12:35:11 by bvaujour          #+#    #+#              #
-#    Updated: 2025/05/15 09:47:12 by injah            ###   ########.fr        #
+#    Updated: 2025/06/24 11:41:40 by bvaujour         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ FLAG = -Wall -Werror -Wextra -g3
 all : $(NAME)
 
 %.o: %.c
-	@cc $(FLAG) -c $< -o $@
+	@gcc $(FLAG) -c $< -o $@
 	@printf "Compiling libft files.....%-50s \r" $@
 
 $(NAME) : $(OBJ) libft.h bonus

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: injah <injah@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 23:32:00 by injah             #+#    #+#             */
-/*   Updated: 2025/05/29 16:57:58 by injah            ###   ########.fr       */
+/*   Updated: 2025/06/24 14:41:16 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom_nukem.h"
+#include "includes/doom_nukem.h"
+
 
 static int	get_longest_string(char **map)
 {
@@ -54,3 +55,8 @@ void	get_map(t_data *data, t_map *map, char *path)
 	}
 	data->map.row = i;
 }
+
+// void	get_map2(t_data *data, t_map *map, char *path)
+// {
+// 	if (map->)
+// }

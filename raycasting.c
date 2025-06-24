@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: injah <injah@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:56:19 by injah             #+#    #+#             */
-/*   Updated: 2025/06/14 15:04:38 by injah            ###   ########.fr       */
+/*   Updated: 2025/06/24 13:47:12 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ static void	init_raycasting_info(int x, t_data *data, t_ray *ray, t_player *play
 
 static void	calculate_line_height(t_data *data, t_ray *ray, t_player *player)
 {
-	float base_height;
-
 	if (ray->side == 0)
 	{
 		ray->wall_dist = ray->sidedist_x - ray->deltadist_x;
@@ -72,11 +70,11 @@ static void	calculate_line_height(t_data *data, t_ray *ray, t_player *player)
 	if (ray->wall_dist <= 0.0001)
 		ray->wall_dist = 0.0001;
 	
-	base_height = data->screen_height / ray->wall_dist;
-	ray->line_height = base_height * ray->wall_height;
+	ray->line_base_height = data->screen_height / ray->wall_dist;
+	ray->line_height = ray->line_base_height * ray->wall_height;
 
 	// draw_end = position du sol en perspective + moitié de la hauteur du mur
-	ray->draw_end = data->screen_height / 2 + player->pitch + (player->view_z / ray->wall_dist) + base_height / 2;
+	ray->draw_end = data->screen_height / 2 + player->pitch + (player->view_z / ray->wall_dist) + ray->line_base_height / 2;
 	ray->draw_start = ray->draw_end - ray->line_height;
 	
 	ray->draw_end = ft_iclamp(ray->draw_end, 0, data->screen_height - 1);
@@ -84,19 +82,20 @@ static void	calculate_line_height(t_data *data, t_ray *ray, t_player *player)
 	
 }
 
-static void	calculate_wall_texture(t_data *data, t_ray *ray)
+static void	calculate_wall_texture(t_data *data, t_ray *ray, double u, double v)
 {
 	if (ray->side == 0)
 		ray->wall_x = data->player.position.y + ray->wall_dist * ray->dir_y;
 	else
 		ray->wall_x = data->player.position.x + ray->wall_dist * ray->dir_x;
+	ray->wall_x *= u;
 	ray->wall_x -= floor(ray->wall_x);
 	ray->texture_x = (int)(ray->wall_x * data->wall.width);			//Coordonnée horizontale du pixel dans la texture (inversion si nécessaire selon la direction).
 	if (ray->wall_card == WEST || ray->wall_card == SOUTH)
 		ray->texture_x =  data->wall.width - ray->texture_x - 1;
-	ray->texture_step = 1.0 * data->wall.height / ray->line_height;	//Préparation de l’échantillonnage vertical : combien de pixels sauter à chaque ligne pour parcourir la texture.
+	ray->texture_step = v * data->wall.height / ray->line_base_height;	//Préparation de l’échantillonnage vertical : combien de pixels sauter à chaque ligne pour parcourir la texture.
 	float offset = ray->draw_start - data->player.pitch - (data->player.view_z / ray->wall_dist);
-	float center_offset = offset - data->screen_height / 2 + ray->line_height / 2;
+	float center_offset = offset - data->screen_height / 2 + ray->line_base_height / 2;
 	ray->texture_pos = center_offset * ray->texture_step;
 }
 
@@ -120,7 +119,7 @@ static void	calculate_plateform(t_data *data, t_ray *ray)
 	ray->platform_start = clone.draw_start;
 }
 
-void	draw_floor(t_data *data, t_ray *ray, int x)
+void	draw_floor(t_data *data, t_ray *ray, int x, float u, float v)
 {
 	int				y;
 	int				index;
@@ -136,19 +135,23 @@ void	draw_floor(t_data *data, t_ray *ray, int x)
 	int				cellX, cellY;
 	int				tx, ty;
 
-	y = ray->platform_start - 1;
-	while (++y < ray->draw_start)
+	y = ray->platform_start;
+	int p = y - horizon;
+	while (++y < ray->draw_start + 1)
 	{
-		int p = y - horizon;
-		// if (p == 0)
-		// 	continue;
-		rowDistance = camZ / abs(p);
+		p++;
 		index = y * data->screen_width + x;
+		if (p == 0)
+			continue;
+		rowDistance = fabs(camZ / p);
 		if (data->distance_buffer[index] != 0 && data->distance_buffer[index] < rowDistance)
 			continue;
 
 		floorX = data->player.position.x + rowDistance * rayDirX;
 		floorY = data->player.position.y + rowDistance * rayDirY;
+
+		floorX *= u;
+		floorY *= v;
 
 		cellX = (int)floorX;
 		cellY = (int)floorY;
@@ -165,17 +168,18 @@ void	draw_floor(t_data *data, t_ray *ray, int x)
 }
 
 
-static void	draw_wall(t_data *data, t_img *wall, t_ray *ray, int x)
+static void	draw_wall(t_data *data, t_img *wall, t_ray *ray, int x, double u, double v)
 {
 	int					y;
 	unsigned int		color;
 	const int 			screen_width = data->screen_width;
-
 	int	index;
-	y = ray->draw_start - 1;
-	if (y + 1 < ray->draw_end)
-		calculate_wall_texture(data, ray);
 
+	if (ray->draw_start >= ray->draw_end)
+		return ;
+
+	y = ray->draw_start - 1;
+	calculate_wall_texture(data, ray, u, v);
 	while (++y < ray->draw_end)
 	{
 		index = y * screen_width + x;
@@ -186,20 +190,15 @@ static void	draw_wall(t_data *data, t_img *wall, t_ray *ray, int x)
 		color = wall->addr[wall->height * ray->texture_y + ray->texture_x];
 		if(ray->side == 1)
 			color = (color >> 1) & 8355711;
-		// if (y == data->screen_half_height && x == data->screen_half_width)
-		// 	printf("wall dist: %f\n", ray->wall_dist);
-		// if (y == data->screen_half_height || x == data->screen_half_width)
-		// 	color = 0xff0000;
 		data->color_buffer[index] = color;
 		data->distance_buffer[index] = ray->wall_dist;
 	}
-	// printf("wall dist: %f\n", ray->wall_dist);
 }
 
 static void	draw_one_vertical_line(t_data *data, t_ray *ray, int x)
 {
-	draw_floor(data, ray, x);
-	draw_wall(data, &data->wall, ray, x);
+	draw_floor(data, ray, x, 1.2f, 1.5f);
+	draw_wall(data, &data->wall, ray, x, 1.0, 1.0);
 }
 
 static void	perform_dda(t_data *data, t_ray *ray, t_map *map, int x)

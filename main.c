@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: injah <injah@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 20:34:39 by injah             #+#    #+#             */
-/*   Updated: 2025/06/14 15:04:55 by injah            ###   ########.fr       */
+/*   Updated: 2025/06/24 17:22:22 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int	update_frame(t_data *data)
 
 		memset(data->frame_img.addr, 0, data->frame_img.buffer_size);
 		memset(data->color_buffer, 0, data->screen_height * data->screen_width * sizeof(unsigned int));
-		memset(data->distance_buffer, 0, data->screen_height * data->screen_width * sizeof(unsigned int));
+		memset(data->distance_buffer, 0, data->screen_height * data->screen_width * sizeof(float));
 
 		size_t	after_memset = ft_gettime_us();
 

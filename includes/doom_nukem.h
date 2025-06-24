@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doom_nukem.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: injah <injah@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 21:11:12 by injah             #+#    #+#             */
-/*   Updated: 2025/06/13 19:38:51 by injah            ###   ########.fr       */
+/*   Updated: 2025/06/24 11:22:48 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "../libs/raylib/src/raylib.h"
 # include "libft.h"
 # include <stdlib.h>
+# include <stdio.h>
 # include <stdbool.h>
 # include <sys/time.h>
 # include <math.h>
@@ -117,6 +118,7 @@ typedef struct s_ray
 	double		deltadist_y;
 	double		wall_dist;
 	double		wall_height;
+	double		line_base_height;
 	double		wall_x;
 	int			side;
 	float		line_height;
@@ -133,6 +135,7 @@ typedef struct s_ray
 typedef struct	s_map
 {
 	char	**grid;
+	int		**height_map;
 	int		col;
 	int		row;
 }				t_map;

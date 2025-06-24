@@ -21,7 +21,7 @@ RAYLIB_DIR = libs/raylib/build/raylib
 
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 
-CC = gcc
+CC = cc
 
 LIBS_INCLUDES_PATH = -I$(MLX_DIR) -I$(LIBFT_DIR) -Iincludes
 MLX_LINK = -L$(MLX_DIR) -lmlx -lXext -lX11

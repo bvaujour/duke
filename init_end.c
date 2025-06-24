@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_end.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: injah <injah@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 22:25:10 by injah             #+#    #+#             */
-/*   Updated: 2025/06/06 12:40:17 by injah            ###   ########.fr       */
+/*   Updated: 2025/06/24 11:37:28 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ static void nullify_ptr(t_data *data)
 	data->color_buffer = NULL;
 	data->distance_buffer = NULL;
 	data->map.grid = NULL;
+	data->map.height_map = NULL;
 }
 
 void init(t_data *data)
@@ -128,6 +129,6 @@ int destroy(t_data *data)
 
 void duke_error(t_data *data, const char *error)
 {
-	ft_dprintf(2, error);
+	dprintf(2, "error: %s\n", error);
 	destroy(data);
 }
