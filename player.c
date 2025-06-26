@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: injah <injah@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 08:41:27 by injah             #+#    #+#             */
-/*   Updated: 2025/06/13 20:00:53 by injah            ###   ########.fr       */
+/*   Updated: 2025/06/26 16:42:45 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static void	handle_state(t_player *player, float time_moving, float delta_time)
 		player->pos_z_modifier = finterp(player->pos_z_modifier, step_position * step_amplitude, 5, delta_time);
 		if (step_position < -0.9 && foot_step_played == false)
 		{
-			PlaySound(player->foot_steps[rand() % 4]);
+			// PlaySound(player->foot_steps[rand() % 4]);
 			foot_step_played = true;
 		}
 		if (step_position >= 0.9)
@@ -85,7 +85,7 @@ static void	handle_state(t_player *player, float time_moving, float delta_time)
 		player->pos_z_modifier = finterp(player->pos_z_modifier, -0.25, 8, delta_time);
 	else if (player->state == GETTING_UP)
 	{
-		player->pos_z_modifier = finterp(player->pos_z_modifier, player->position.z, 10, delta_time);
+		player->pos_z_modifier = finterp(player->pos_z_modifier, 0, 10, delta_time);
 		if (player->pos_z_modifier >= player->position.z)
 		{
 			player->pos_z_modifier = player->position.z;
@@ -134,10 +134,10 @@ static void	handle_rotation(t_player *player, t_hotkeys *hotkeys, float delta_ti
 	{
 		player->pitch += hotkeys->mouse_y * -700 * delta_time;
 		hotkeys->mouse_y = 0.0;
-		if (player->pitch > 1000)
-			player->pitch = 1000;
-		if (player->pitch < -1000)
-			player->pitch = -1000;
+		if (player->pitch > 1800)
+			player->pitch = 1800;
+		if (player->pitch < -1800)
+			player->pitch = -1800;
 	}
 }
 	
@@ -145,7 +145,7 @@ void update_player(t_data *data, float delta_time)
 {
 	static float	time_moving = 0.0f;
 	
-	if (handle_movement(&data->player, &data->hotkeys, &data->map, delta_time))
+	if (handle_movement(&data->player, &data->hotkeys, &data->map_infos, delta_time))
 		time_moving += delta_time;
 	else
 		time_moving = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_stock_file.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: injah <injah@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 09:44:11 by injah             #+#    #+#             */
-/*   Updated: 2025/05/20 15:41:19 by injah            ###   ########.fr       */
+/*   Updated: 2025/06/26 13:20:09 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,6 @@ char	**ft_stock_file(char *path)
 		text[line] = get_next_line(fd);
 		text[line] = ft_strtrim(text[line], "\n", 1);
 	}
+	close(fd);
 	return (text);
 }

@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 22:25:10 by injah             #+#    #+#             */
-/*   Updated: 2025/06/24 11:37:28 by bvaujour         ###   ########.fr       */
+/*   Updated: 2025/06/26 15:39:53 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,18 @@
 
 void	init_audio(t_data *data)
 {
-	InitAudioDevice();
-	data->player.foot_steps[0] = LoadSound("sound/footstep/421149__giocosound__footstep_wood_heel_2.wav");
-	SetSoundVolume(data->player.foot_steps[0], 0.1);
-	data->player.foot_steps[1] = LoadSound("sound/footstep/9918__snoman__wood2.wav");
-	SetSoundVolume(data->player.foot_steps[1], 0.1);
-	data->player.foot_steps[2] = LoadSound("sound/footstep/9919__snoman__wood3.wav");
-	SetSoundVolume(data->player.foot_steps[2], 0.1);
-	data->player.foot_steps[3] = LoadSound("sound/footstep/9920__snoman__wood4.wav");
-	SetSoundVolume(data->player.foot_steps[3], 0.1);
-	data->player.foot_steps[4] = LoadSound("sound/footstep/110100__ronaldvanwonderen__heavy_footstep_wood_3.wav");
-	SetSoundVolume(data->player.foot_steps[4], 0.1);
+	(void)data;
+	// InitAudioDevice();
+	// data->player.foot_steps[0] = LoadSound("sound/footstep/421149__giocosound__footstep_wood_heel_2.wav");
+	// SetSoundVolume(data->player.foot_steps[0], 0.1);
+	// data->player.foot_steps[1] = LoadSound("sound/footstep/9918__snoman__wood2.wav");
+	// SetSoundVolume(data->player.foot_steps[1], 0.1);
+	// data->player.foot_steps[2] = LoadSound("sound/footstep/9919__snoman__wood3.wav");
+	// SetSoundVolume(data->player.foot_steps[2], 0.1);
+	// data->player.foot_steps[3] = LoadSound("sound/footstep/9920__snoman__wood4.wav");
+	// SetSoundVolume(data->player.foot_steps[3], 0.1);
+	// data->player.foot_steps[4] = LoadSound("sound/footstep/110100__ronaldvanwonderen__heavy_footstep_wood_3.wav");
+	// SetSoundVolume(data->player.foot_steps[4], 0.1);
 }
 
 static void init_player(t_data *data)
@@ -51,8 +52,8 @@ static void init_player(t_data *data)
 
 static void init_game(t_data *data)
 {
-	data->map.col = 0;
-	data->map.row = 0;
+	data->map_infos.col = 0;
+	data->map_infos.row = 0;
 	data->hotkeys.key_a = false;
 	data->hotkeys.key_w = false;
 	data->hotkeys.key_z = false;
@@ -79,8 +80,8 @@ static void nullify_ptr(t_data *data)
 	data->win = NULL;
 	data->color_buffer = NULL;
 	data->distance_buffer = NULL;
-	data->map.grid = NULL;
-	data->map.height_map = NULL;
+	// data->map.grid = NULL;
+	data->map_infos.height_map = NULL;
 }
 
 void init(t_data *data)
@@ -114,15 +115,24 @@ int destroy(t_data *data)
 	if (data->mlx)
 		mlx_destroy_display(data->mlx);
 	free(data->mlx);
-	ft_free_tab(data->map.grid);
+	// ft_free_tab(data->map.grid);
 	free(data->color_buffer);
 	free(data->distance_buffer);
-	UnloadSound(data->player.foot_steps[0]);
-	UnloadSound(data->player.foot_steps[1]);
-	UnloadSound(data->player.foot_steps[2]);
-	UnloadSound(data->player.foot_steps[3]);
-	UnloadSound(data->player.foot_steps[4]);
-	CloseAudioDevice();
+	int i;
+
+	i = 0;
+	while (data->map_infos.height_map[i])
+	{
+		free(data->map_infos.height_map[i]);
+		i++;
+	}
+	free(data->map_infos.height_map);
+	// UnloadSound(data->player.foot_steps[0]);
+	// UnloadSound(data->player.foot_steps[1]);
+	// UnloadSound(data->player.foot_steps[2]);
+	// UnloadSound(data->player.foot_steps[3]);
+	// UnloadSound(data->player.foot_steps[4]);
+	// CloseAudioDevice();
 	exit(0);
 	return (0);
 }

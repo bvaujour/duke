@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 20:34:39 by injah             #+#    #+#             */
-/*   Updated: 2025/06/24 17:22:22 by bvaujour         ###   ########.fr       */
+/*   Updated: 2025/06/26 16:45:45 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,7 @@ void	post_process(t_data *data)
 
 void	render(t_data *data)
 {
-	// floorcasting(data);
-	raycasting(data, &data->map);
+	raycasting(data);
 }
 
 void	update(t_data *data, float delta_time)
@@ -95,7 +94,7 @@ void	update(t_data *data, float delta_time)
 
 static void	hud(t_data *data)
 {
-	draw_minimap2(data);
+	draw_minimap(data);
 }
 
 int	update_frame(t_data *data)
@@ -131,11 +130,12 @@ int	update_frame(t_data *data)
 		size_t	after_post_process = ft_gettime_us();
 
 		hud(data);
-		memcpy(data->frame_img.addr, data->color_buffer, data->screen_width * data->screen_height * sizeof(unsigned int));
-
+		
 		size_t	after_minimap = ft_gettime_us();
-
+		
+		memcpy(data->frame_img.addr, data->color_buffer, data->screen_width * data->screen_height * sizeof(unsigned int));
 		mlx_put_image_to_window(data->mlx, data->win, data->frame_img.img_ptr, 0, 0);
+
 		size_t	after_put_image = ft_gettime_us();
 
 		if (0)
@@ -146,9 +146,9 @@ int	update_frame(t_data *data)
         after_post_process - after_raycasting,
         after_minimap - after_post_process,
         after_put_image - after_minimap);
-		if (0)
+		if (1)
 		{
-			printf("position: x:%f, y:%f, z:%f\npitch: %f\n, floor_height: %f\n", data->player.position.x, data->player.position.y, data->player.position.z, data->player.pitch, data->player.floor_height);
+			printf("position: x:%f, y:%f, z:%f\npitch: %f\nfloor_height: %f\nplayer view: %f", data->player.position.x, data->player.position.y, data->player.position.z, data->player.pitch, data->player.floor_height, data->player.view_z);
 			printf("direction = x:%f, y:%f\n\n", data->player.direction.x, data->player.direction.y);
 		}
 	}
@@ -160,7 +160,9 @@ int main()
 	t_data data;
 	
 	init(&data);
-	get_map(&data, &data.map, "maps/map0.ber");
+	get_map2(&data, &data.map_infos, "maps/map1.ber");
+	data.player.floor_height = get_wall_height(&data.map_infos, data.player.position.x, data.player.position.y);
+	data.player.position.z = data.player.floor_height;
 	data.mlx = mlx_init();
 	if (!data.mlx)
 		destroy(&data);

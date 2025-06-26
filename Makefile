@@ -7,7 +7,6 @@ SRC =	main.c 			\
 		graphic_utils.c	\
 		utils.c 		\
 		raycasting.c	\
-		floorcasting.c	\
 		player.c		\
 		hotkeys.c		\
 		init_end.c		\

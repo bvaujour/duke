@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:56:19 by injah             #+#    #+#             */
-/*   Updated: 2025/06/24 13:47:12 by bvaujour         ###   ########.fr       */
+/*   Updated: 2025/06/26 15:29:30 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,7 +234,7 @@ static void	perform_dda(t_data *data, t_ray *ray, t_map *map, int x)
 		
 }
 
-void	raycasting(t_data *data, t_map *map)
+void	raycasting(t_data *data)
 {
 	int		x;
 	t_ray	ray;
@@ -243,6 +243,6 @@ void	raycasting(t_data *data, t_map *map)
 	while (++x < data->screen_width)
 	{
 		init_raycasting_info(x, data, &ray, &data->player);
-		perform_dda(data, &ray, map, x);
+		perform_dda(data, &ray, &data->map_infos, x);
 	}
 }

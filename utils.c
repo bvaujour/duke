@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: injah <injah@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 18:55:13 by injah             #+#    #+#             */
-/*   Updated: 2025/06/06 11:33:46 by injah            ###   ########.fr       */
+/*   Updated: 2025/06/26 15:31:44 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ float	get_wall_height(t_map *map, int x, int y)
 {
 	if (is_out_of_map(map, x, y))
 		return (3.0f);
-	return ((map->grid[y][x] - 48) * 0.1f);
+	return ((map->height_map[y][x]) * 0.1f);
 }
 
 bool	is_walkable(t_player *player, t_map *map, int x, int y)
@@ -66,3 +66,4 @@ bool	is_walkable(t_player *player, t_map *map, int x, int y)
 		return (false);
 	return (true);
 }
+

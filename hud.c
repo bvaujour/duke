@@ -3,37 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   hud.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: injah <injah@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 16:09:11 by injah             #+#    #+#             */
-/*   Updated: 2025/06/06 11:33:30 by injah            ###   ########.fr       */
+/*   Updated: 2025/06/26 16:44:44 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom_nukem.h"
 
+
 void draw_minimap(t_data *data)
-{
-	int x;
-	int y;
-	const int cell_size = (data->screen_half_width / 2) / data->map.col;
-
-	y = 0;
-	while (data->map.grid[y])
-	{
-		x = 0;
-		while (data->map.grid[y][x])
-		{
-			if (data->map.grid[y][x] != '0')
-				ft_draw_square(data->color_buffer, data->screen_width, x * cell_size, y * cell_size, cell_size - 1, cell_size - 1, 0xFFFFFF);
-			x++;
-		}
-		y++;
-	}
-	ft_draw_circle(data->color_buffer, data->screen_width, data->player.position.x * cell_size, data->player.position.y * cell_size, 2, 0x00FF00);
-}
-
-void draw_minimap2(t_data *data)
 {
 	int x, y;
 	unsigned int color;
@@ -60,12 +40,12 @@ void draw_minimap2(t_data *data)
 			float map_x = data->player.position.x + ((float)x - minimap_width / 2.0f) / cell_size;
 			int map_ix = (int)floor(map_x);
 
-			if (last_map_y == map_iy && last_map_x == map_ix && color == 0x6e6e6e && !is_out_of_map(&data->map, map_ix, map_iy) && data->map.grid[map_iy][map_ix] != '0')
+			if (last_map_y == map_iy && last_map_x == map_ix && color == 0x6e6e6e && !is_out_of_map(&data->map_infos, map_ix, map_iy) && data->map_infos.height_map[map_iy][map_ix] != 0)
 			{
 				// Utiliser la couleur spéciale si tu as marqué avec 0x006e6e6e
 				color = 0x00ffff; // mur
 			}
-			else if (last_map_y == map_iy && last_map_x == map_ix && color == 0x6e6e6e && !is_out_of_map(&data->map, map_ix, map_iy) && data->map.grid[map_iy][map_ix] == '0')
+			else if (last_map_y == map_iy && last_map_x == map_ix && color == 0x6e6e6e && !is_out_of_map(&data->map_infos, map_ix, map_iy) && data->map_infos.height_map[map_iy][map_ix] == 0)
 			{
 				// Utiliser la couleur spéciale si tu as marqué avec 0x006e6e6e
 				color = 0xffffff; // mur

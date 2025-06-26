@@ -6,7 +6,7 @@
 /*   By: bvaujour <bvaujour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 21:11:12 by injah             #+#    #+#             */
-/*   Updated: 2025/06/24 11:22:48 by bvaujour         ###   ########.fr       */
+/*   Updated: 2025/06/26 16:45:03 by bvaujour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ typedef struct	s_player
 	float				move_speed;
 	float				rot_speed;
 	float				floor_height;
-	Sound				foot_steps[5];
+	// Sound				foot_steps[5];
 }				t_player;
 
 typedef struct	s_hotkeys
@@ -134,7 +134,6 @@ typedef struct s_ray
 
 typedef struct	s_map
 {
-	char	**grid;
 	int		**height_map;
 	int		col;
 	int		row;
@@ -148,7 +147,7 @@ typedef struct	s_data
 	int				screen_height;
 	int				screen_half_width;
 	int				screen_half_height;
-	t_map			map;
+	t_map			map_infos;
 	t_img			minimap;
 	t_img			wall;
 	t_img			floor;
@@ -178,12 +177,12 @@ void				duke_error(t_data *data, const char *error);
 
 
 
-void 				draw_minimap2(t_data *data);
 void 				draw_minimap(t_data *data);
 
 
 
 void				get_map(t_data *data, t_map *map, char *path);
+void				get_map2(t_data *data, t_map *map, char *path);
 float				get_wall_height(t_map *map, int x, int y);
 bool				is_walkable(t_player *player, t_map *map, int x, int y);
 bool				is_out_of_map(t_map *map, int x, int y);
@@ -206,7 +205,7 @@ unsigned int 		apply_light_modifier(unsigned int color, float light_factor, int 
 
 
 
-void				raycasting(t_data *data, t_map *map);
+void				raycasting(t_data *data);
 void				floorcasting(t_data *data);
 
 size_t				ft_gettime();
